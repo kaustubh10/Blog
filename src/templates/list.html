@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% block head %}{% endblock head %}
+<h1>Blog Posts !</h1><br><br>
+<h2>{{ count }} Posts</h2><br><br><br>
+<a href='create/' class="btn btn-primary" role="button">Create new post</a><br><br><br><br>
+
+{% for obj in lists %}
+
+<div class="row">
+  <div class="col-sm-6 ">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>{{ obj.title|upper }}</h3>
+        {% if obj.image %}
+        	<img src="{{ obj.image.url }}" class="img-responsive"/>
+        {% endif %}
+        {{ obj.content }}<br>
+		{{ obj.timestamp }}<br>
+		{{ obj.id }}<br>
+        <p><a href='{{ obj.id }}/update/' class="btn btn-primary" role="button">Update</a><p><a href='{{ obj.get_absolute_url }}' class="btn btn-primary" role="button">View</a> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if lists.has_previous %}
+            <a href="?page={{ lists.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ lists.number }} of {{ lists.paginator.num_pages }}.
+        </span>
+
+        {% if lists.has_next %}
+            <a href="?page={{ lists.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}
